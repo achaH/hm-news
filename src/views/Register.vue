@@ -36,6 +36,8 @@
 
 <script>
 export default {
+  // 还能写三个路由的钩子函数
+  // beforeRouterEnter()  beforeRouterUpdate()  beforeRouterLeave()
   data() {
     return {
       user: {
@@ -73,11 +75,15 @@ export default {
   },
   methods: {
     async register() {
-      const res = await this.$axios.post('./register', this.user)
+      const res = await this.$axios.post('/register', this.user)
       console.log(res.data)
       const { statusCode, message } = res.data
       if (statusCode === 200) {
         this.$toast.success(message)
+        this.$router.push({
+          name: 'login',
+          params: this.user
+        })
       } else {
         this.$toast.fail('注册失败')
       }
@@ -86,7 +92,7 @@ export default {
 }
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 .tips {
   text-align: right;
   padding: 0 15px;

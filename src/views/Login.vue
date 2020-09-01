@@ -30,6 +30,12 @@
 
 <script>
 export default {
+  created() {
+    // console.log(this.$route)
+    const { username, password } = this.$route.params
+    this.username = username
+    this.password = password
+  },
   data() {
     return {
       username: '',
@@ -56,14 +62,17 @@ export default {
   },
   methods: {
     async login() {
-      const res = await this.$axios.post('./login', {
+      const res = await this.$axios.post('/login', {
         username: this.username,
         password: this.password
       })
-      // console.log(res.data)
-      const { statusCode, message } = res.data
+      console.log(res.data)
+      const { statusCode, message, data } = res.data
       if (statusCode === 200) {
         this.$toast.success(message)
+        localStorage.setItem('token', data.token)
+        localStorage.setItem('userId', data.user.id)
+        this.$router.push('/user')
       } else {
         this.$toast.fail('登录失败')
       }
@@ -72,7 +81,7 @@ export default {
 }
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 .tips {
   text-align: right;
   padding: 0 15px;
