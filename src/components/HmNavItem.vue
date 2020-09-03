@@ -16,6 +16,7 @@ export default {
   methods: {
     clickFn() {
       this.$router.push(this.to)
+      this.$emit('click')
     }
   }
 }

@@ -1,6 +1,6 @@
 <template>
   <div class="user">
-    <div class="header">
+    <div class="header" @click="toFn">
       <div class="avater">
         <img :src="base + user.head_img" alt="" />
       </div>
@@ -22,15 +22,15 @@
       <template>我的关注</template>
       <template #content>关注的用户</template>
     </hm-navItem>
-    <hm-navItem to="/follow">
+    <hm-navItem to="/comment">
       <template>我的跟帖</template>
       <template #content>跟帖/回复</template>
     </hm-navItem>
-    <hm-navItem to="/follow">
+    <hm-navItem to="/star">
       <template>我的收藏</template>
       <template #content>文章/视频</template>
     </hm-navItem>
-    <hm-navItem>设置</hm-navItem>
+    <hm-navItem to="/userEdit">设置</hm-navItem>
     <div style="margin:15px">
       <van-button class="logout" type="primary" @click="logout" block
         >退出</van-button
@@ -49,7 +49,6 @@ export default {
     const { statusCode, data } = res.data
     if (statusCode === 200) {
       this.user = data
-      console.log(this.user)
     }
     // 不用再考虑statusCode=401的情况了，再响应拦截处理器统一做了处理，处理token失效的情况
   },
@@ -74,6 +73,9 @@ export default {
       localStorage.removeItem('userId')
       this.$router.push('/login')
       this.$toast.success('退出成功')
+    },
+    toFn() {
+      this.$router.push('/userEdit')
     }
   },
   computed: {

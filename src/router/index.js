@@ -1,18 +1,27 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Login from '../views/Login.vue'
-import Register from '../views/Register.vue'
-import User from '../views/User.vue'
+import Login from '../views/user/Login.vue'
+import Register from '../views/user/Register.vue'
+import User from '../views/user/User.vue'
+import UserEdit from '../views/user/UserEdit.vue'
+import MyFollow from '../views/user/myFollow.vue'
+import MyComment from '../views/user/myComment.vue'
+import MyStar from '../views/user/myStar.vue'
+import Index from '../views/news/index.vue'
 // import { VanPopupMixin } from 'vant/types/mixins/popup'
 
 Vue.use(VueRouter)
 
 const routes = [
   // 路由独享的守卫beforeEnter()
-  { path: '/', redirect: '/login' },
   { path: '/login', component: Login, name: 'login' },
   { path: '/register', component: Register, name: 'register' },
-  { path: '/user', component: User, name: 'user' }
+  { path: '/user', component: User, name: 'user' },
+  { path: '/userEdit', component: UserEdit, name: 'userEdit' },
+  { path: '/follow', component: MyFollow, name: 'follow' },
+  { path: '/comment', component: MyComment, name: 'comment' },
+  { path: '/star', component: MyStar, name: 'star' },
+  { path: '/', component: Index, name: 'index' }
 ]
 
 const router = new VueRouter({
@@ -26,7 +35,7 @@ VueRouter.prototype.push = function push(location) {
 }
 
 // 全局路由导航守卫
-router.beforeEach(function(to, from, next) {
+router.beforeEach((to, from, next) => {
   const token = localStorage.getItem('token')
   if (to.name !== 'user' || token) {
     next()
